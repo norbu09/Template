@@ -1,0 +1,43 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use Template::Alloy;
+use Config::Auto;
+use Data::Dumper;
+use File::Basename;
+use Switch;
+
+my $file = shift;
+my $desc = shift;
+
+die "Usage:
+$0 [file] [descrsiption]
+
+creates a file based on the filename in the desired location with the
+appropriate template." unless defined $file;
+
+my $conf = Config::Auto::parse;
+
+my @suffixlist = qw/pm pl rabbit/;
+my ($name,$path,$suffix) = fileparse($file,@suffixlist);
+
+# perl related stuff - needs to be generalised
+my $pkg_name = $file;
+$pkg_name =~ s{(lib/)?(.*)\.[\w]+}{$2}g;
+$pkg_name =~ s{/}{::}g;
+$conf->{package}->{name} = $pkg_name;
+$conf->{package}->{name} = $pkg_name;
+$conf->{package}->{desc} = $desc || $pkg_name;
+
+my $t = Template::Alloy->new( INCLUDE_PATH => [$conf->{config}->{templates}], );
+
+my $out = '';
+$t->process($suffix, $conf, \$out);
+
+#print Dumper($out);
+#print Dumper($conf);
+
+open(FILE, '>', $file) or die "could not write to $file: $@";
+print FILE $out;
+close FILE;

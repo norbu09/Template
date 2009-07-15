@@ -1,0 +1,77 @@
+#!/usr/bin/perl -Ilib
+
+use strict;
+use warnings;
+use Net::AMQP::Simple;
+use Data::Dumper;
+
+my $spec = {
+    RemoteAddress => '127.0.0.1',
+    RemotePort    => { default => 5672 },
+    Username      => { default => 'guest' },
+    Password      => { default => 'guest' },
+    VirtualHost   => { default => '/' },
+
+    Logger => 0,
+    Debug  => { default => {} },
+
+    Alias     => { default => 'amqp_client' },
+    AliasTCP  => { default => 'tcp_client' },
+    Callbacks => { default => {} },
+
+    channels   => { default => {} },
+    is_started => { default => 0 },
+};
+
+Net::AMQP::Simple::connect($spec);
+
+#Net::AMQP::Simple::queue("log");
+#Net::AMQP::Simple::pub("log", "helo world");
+
+while(1){
+    print Dumper(Net::AMQP::Simple::poll());
+}
+
+
+
+=head1 NAME
+
+[% package.name %] - [% package.desc %]
+
+=head1 VERSION
+
+Version 0.01
+
+=head1 SYNOPSIS
+
+This is a RabbitMQ end point handling ...
+
+=head1 AUTHOR
+
+[% author.name %], C<< [% author.email %] >>
+
+=head1 BUGS
+
+Please report any bugs or feature requests to C<< [% author.email %] >>
+
+=head1 SUPPORT
+
+You can find documentation for this module with the perldoc command.
+
+    perldoc [% package.name %]
+
+=back
+
+
+=head1 ACKNOWLEDGEMENTS
+
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright 2009 [% author.name %], [% author.company %], all rights reserved.
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
+=cut
+
