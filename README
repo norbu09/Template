@@ -1,0 +1,15 @@
+clone the repsitory to where ever you have repositories like this :-)
+
+- link the bin/template script to a location that holds executables (~/bin
+  might be a good place)
+- link etc/template.conf to ~/templaterc
+- link share to somewhere and fix the line in the config pointing to it
+
+to use the thing:
+
+# template lib/New/Module.pm "Awesome new module doing fancy stuff"
+
+creates a file called lib/New/Module.pm and fills the file with the
+temlate from share/pm.
+extend the system by adding templates and specific extensions ... still
+really basic but good enough for the moment
